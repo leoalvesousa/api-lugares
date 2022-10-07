@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt  DateTime @default(now()) @db.Timestamp(0)
+}
+
+model migrations {
+  id        Int    @id @default(autoincrement())
+  timestamp BigInt
+  name      String @db.VarChar(255)
+}
+
+model places {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(50)
+  zipCode  String @db.Char(7)
+  address  String @db.VarChar(50)
+  city     String @db.VarChar(50)
+  state    String @db.VarChar(50)
+  country  String @db.VarChar(50)
+  category String @db.VarChar(50)
+}
+
+model users {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(50)
+  email     String   @db.VarChar(50)
+  password  String   @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updateAt  DateTime @default(now()) @db.Timestamp(0)
+}
