@@ -22,6 +22,9 @@ export class PlacesService {
 
     return this.prisma.places.create({
       data: createPlaceDto,
+      include: {
+        categories: true,
+      },
     });
   }
 

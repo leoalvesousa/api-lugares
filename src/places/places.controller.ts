@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PlacesService } from './places.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
+import { jwtGuard } from 'src/auth/dto/jwt.guard';
 
 @Controller('places')
 export class PlacesController {
@@ -35,6 +37,7 @@ export class PlacesController {
     return this.placesService.update(+id, updatePlaceDto);
   }
 
+  @UseGuards(jwtGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.placesService.remove(+id);

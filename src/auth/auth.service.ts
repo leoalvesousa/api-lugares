@@ -3,10 +3,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { CreateLogDto } from './dto/create-user-log.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-export class UsersService {
-  constructor(private prisma: PrismaService) {}
+export class AuthService {
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.prisma.users.findFirst({
@@ -31,11 +32,26 @@ export class UsersService {
       },
     });
   }
-  async login(createUserLogDto: CreateLogDto) {
-    const user = this.prisma.users.findFirst({
+  async login(createLogDto: CreateLogDto) {
+    const user = await this.prisma.users.findFirst({
       where: {
-        email: createUserLogDto,
+        email: createLogDto.email,
       },
     });
+    if (!user) {
+      throw new BadRequestException('Email ou senha invalido');
+    }
+    if (!(await bcrypt.compare(createLogDto.password, user.password))) {
+      throw new BadRequestException('Email ou senha invalido');
+    }
+
+    const token = this.jwtService.sign({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+    return {
+      access_token: token,
+    };
   }
 }

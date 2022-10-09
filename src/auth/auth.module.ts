@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PlacesService } from './places.service';
-import { PlacesController } from './places.controller';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CategoriesService } from 'src/categories/categories.service';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -14,7 +13,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     }),
   ],
-  controllers: [PlacesController],
-  providers: [PlacesService, PrismaService, CategoriesService],
+  controllers: [AuthController],
+  providers: [AuthService, PrismaService],
 })
-export class PlacesModule {}
+export class AuthModule {}
