@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CreateUserLogDto } from './dto/create-user-log.dto';
+import { CreateLogDto } from './dto/create-user-log.dto';
 
 @Controller('auth')
 export class UsersController {
@@ -17,6 +17,6 @@ export class UsersController {
   }
 }
 @Post('login')
-login(@Body() createUserLogDto: CreateUserLogDto) {
-  return this.usersService.login(createUserLogDto);
+login(@Body() createLogDto: CreateLogDto) {
+  return this.usersService.login(createLogDto);
 }

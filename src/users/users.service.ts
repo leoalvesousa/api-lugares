@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { CreateUserLogDto } from './dto/create-user-log.dto';
+import { CreateLogDto } from './dto/create-user-log.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,7 +31,7 @@ export class UsersService {
       },
     });
   }
-  async login(createUserLogDto: CreateUserLogDto) {
+  async login(createUserLogDto: CreateLogDto) {
     const user = this.prisma.users.findFirst({
       where: {
         email: createUserLogDto,
