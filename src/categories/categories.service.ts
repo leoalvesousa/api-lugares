@@ -1,26 +1,63 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Injectable()
 export class CategoriesService {
+  constructor(private prisma: PrismaService) {}
+
   create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    return this.prisma.categories.create({
+      data: {
+        name: createCategoryDto.name,
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all categories`;
+    return this.prisma.categories.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    if (isNaN(Number(id))) {
+      throw new BadRequestException('ID não é um número');
+    }
+    const category = await this.prisma.categories.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException('Categoria não encontrada');
+    }
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    await this.findOne(id);
+
+    return this.prisma.categories.update({
+      data: {
+        name: updateCategoryDto.name,
+      },
+      where: {
+        id: +id,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    await this.findOne(id);
+
+    return this.prisma.categories.delete({
+      where: {
+        id: +id,
+      },
+    });
   }
 }
