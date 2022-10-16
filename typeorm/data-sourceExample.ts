@@ -6,7 +6,7 @@ export default new DataSource({
   port: 0000,
   username: 'youruserName',
   password: 'yourpasword',
-  database: 'hcode',
+  database: 'DB',
   synchronize: true,
   logging: true,
   migrations: ['typeorm/migrations/*.ts'],
