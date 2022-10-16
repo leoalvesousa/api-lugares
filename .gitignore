@@ -1,6 +1,8 @@
 # compiled output
 /dist
 /node_modules
+.env
+src/typeorm/data-source.ts
 
 # Logs
 logs
@@ -32,4 +34,4 @@ lerna-debug.log*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.vscode/extensions.json
+!.vscode/extensions.jsondata-source

@@ -29,7 +29,7 @@ export class CategoriesService {
     }
     const category = await this.prisma.categories.findUnique({
       where: {
-        id: +id,
+        id,
       },
     });
     if (!category) {
@@ -46,7 +46,7 @@ export class CategoriesService {
         name: updateCategoryDto.name,
       },
       where: {
-        id: +id,
+        id,
       },
     });
   }
@@ -56,7 +56,7 @@ export class CategoriesService {
 
     return this.prisma.categories.delete({
       where: {
-        id: +id,
+        id,
       },
     });
   }

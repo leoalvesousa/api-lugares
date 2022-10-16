@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PlacesService } from './places.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
@@ -29,18 +30,18 @@ export class PlacesController {
   }
   @UseGuards(jwtGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.placesService.findOne(+id);
   }
   @UseGuards(jwtGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
+  update(@Param('id', ParseIntPipe) id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
     return this.placesService.update(+id, updatePlaceDto);
   }
 
   @UseGuards(jwtGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: string) {
     return this.placesService.remove(+id);
   }
 }

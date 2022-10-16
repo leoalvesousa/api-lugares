@@ -42,7 +42,7 @@ export class PlacesService {
     }
     const places = await this.prisma.places.findUnique({
       where: {
-        id: +id,
+        id,
       },
     });
     if (!places) {
@@ -63,7 +63,7 @@ export class PlacesService {
     return this.prisma.places.update({
       data: updatePlaceDto,
       where: {
-        id: +id,
+        id,
       },
       include: {
         categories: true,
@@ -75,7 +75,7 @@ export class PlacesService {
     await this.findOne(id);
     return this.prisma.places.delete({
       where: {
-        id: +id,
+        id,
       },
     });
   }
